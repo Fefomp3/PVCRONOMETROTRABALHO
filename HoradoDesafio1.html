@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hora do desafio 1 (me empolguei)</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Menu de Navegação */
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative; /* Adicionado para posicionar o perfil */
+        }
+
+        nav button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        nav button:hover, nav button.ativo {
+            background-color: #007bff;
+        }
+
+        /* Identificação do Usuário na Nav */
+        .nav-usuario {
+            position: absolute;
+            right: 20px;
+            color: #e0e0e0;
+            background-color: #222;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #444;
+        }
+
+        @media (max-width: 768px) {
+            .nav-usuario {
+                position: static;
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+                border-radius: 5px;
+            }
+        }
+
+        /* Controle das Abas */
+        .conteudo-aba {
+            display: none;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .conteudo-aba.ativa {
+            display: block;
+        }
+
+        /* Estilos do Quadro de Planejamento */
+        .quadro-planejamento {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px dashed #bbb;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .quadro-planejamento h3 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .nota-visual {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #665c00;
+            font-size: 15px;
+        }
+        .nota-visual strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        .lista-tarefas {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .lista-tarefas li {
+            margin-bottom: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .lista-tarefas input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Divisória de Prévia */
+        .previa-container {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px dashed #ccc;
+        }
+        .previa-container > h3 {
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        /* Estilos Visuais Reais (Prévias) */
+        
+        /* 1. Cursos Alura */
+        #alura .grid { display: flex; gap: 20px; flex-wrap: wrap; }
+        .card-curso { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; min-width: 250px; border-top: 5px solid #0056D2; }
+        .barra-fundo { background-color: #eee; height: 10px; border-radius: 5px; margin-top: 15px; overflow: hidden; }
+        .barra-progresso { background-color: #0056D2; height: 100%; border-radius: 5px; }
+        .barra-progresso.concluido { background-color: #2ecc71; }
+
+        /* 2. Projetos JS */
+        #projetos .previa-box { background-color: #1e1e1e; padding: 30px; border-radius: 8px; color: #fff; }
+        #projetos .grid { display: flex; gap: 20px; flex-wrap: wrap; }
+        .card-projeto { background: #2d2d2d; padding: 20px; border-radius: 8px; flex: 1; min-width: 250px; border: 1px solid #444; }
+        .tag { background: #444; padding: 3px 8px; border-radius: 4px; font-size: 12px; color: #ccc; }
+        .btn-js { background-color: #F7DF1E; color: #000; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 15px; }
+
+        /* 3. Portfólio */
+        #portfolio .previa-box { text-align: center; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .foto-perfil { width: 150px; height: 150px; background-color: #ddd; border-radius: 50%; margin: 0 auto 20px auto; border: 4px solid #8A2BE2; display: flex; align-items: center; justify-content: center; color: #888; }
+        .info-escola { font-size: 18px; color: #555; background: #f4f4f9; display: inline-block; padding: 8px 15px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #ddd; }
+        .link-social { color: #8A2BE2; text-decoration: none; font-weight: bold; margin: 0 10px; }
+
+        /* 4. Currículo */
+        #curriculo .previa-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        #curriculo h4 { color: #444; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 25px; }
+        .btn-download { background-color: #333; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 20px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Botões de Navegação -->
+    <nav>
+        <button class="btn-aba ativo" onclick="abrirAba(event, 'alura')">Cursos Alura</button>
+        <button class="btn-aba" onclick="abrirAba(event, 'projetos')">Projetos JS</button>
+        <button class="btn-aba" onclick="abrirAba(event, 'portfolio')">Portfólio</button>
+        <button class="btn-aba" onclick="abrirAba(event, 'curriculo')">Currículo</button>
+        
+        <!-- Identificação adicionada aqui! -->
+        <div class="nav-usuario">
+            👤 Felipe Tozzini | 3k - Nº 13
+        </div>
+    </nav>
+
+    <main>
+        <!-- Aba 1: Planejamento Cursos na Alura -->
+        <section id="alura" class="conteudo-aba ativa">
+            <h2>Folha de Planejamento: Cursos na Alura</h2>
+            <div class="nota-visual">
+                <strong>Ideia de Design & Cores:</strong>
+                Fundo claro e limpo. Usar cartões organizados em grade. Cada curso terá uma barra de progresso visual com a cor azul oficial da Alura para cursos em andamento e verde para os concluídos.
+            </div>
+            <div class="quadro-planejamento">
+                <h3>O que vou incluir na tela final:</h3>
+                <ul class="lista-tarefas">
+                    <li><input type="checkbox" checked> Desenhar cartão para o curso "Mercado de Trabalho"</li>
+                    <li><input type="checkbox" checked> Desenhar cartão para o curso "AutorIA"</li>
+                    <li><input type="checkbox"> Desenhar cartão para o curso "Projeto de Vida"</li>
+                </ul>
+            </div>
+            
+            <div class="previa-container">
+                <h3>Prévia Visual</h3>
+                <div class="grid">
+                    <div class="card-curso">
+                        <h3>Mercado de Trabalho</h3>
+                        <p>Status: Concluído</p>
+                        <div class="barra-fundo"><div class="barra-progresso concluido" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="card-curso">
+                        <h3>AutorIA</h3>
+                        <p>Status: Concluído</p>
+                        <div class="barra-fundo"><div class="barra-progresso concluido" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="card-curso">
+                        <h3>Projeto de Vida</h3>
+                        <p>Status: Em andamento</p>
+                        <div class="barra-fundo"><div class="barra-progresso" style="width: 50%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aba 2: Planejamento Projetos em JS -->
+        <section id="projetos" class="conteudo-aba">
+            <h2>Folha de Planejamento: Projetos em JavaScript</h2>
+            <div class="nota-visual">
+                <strong>Ideia de Design & Cores:</strong>
+                Aplicar um "Dark Mode" (fundo escuro #1e1e1e). Detalhes e botões usarão o amarelo clássico do JavaScript.
+            </div>
+            <div class="quadro-planejamento">
+                <h3>O que vou incluir na tela final:</h3>
+                <ul class="lista-tarefas">
+                    <li><input type="checkbox"> Estruturar uma galeria de miniaturas para os projetos práticos</li>
+                    <li><input type="checkbox"> Incluir espaço para o "Jogo do Número Secreto"</li>
+                    <li><input type="checkbox"> Incluir espaço para a "Calculadora"</li>
+                </ul>
+            </div>
+
+            <div class="previa-container">
+                <h3>Prévia Visual</h3>
+                <div class="previa-box">
+                    <div class="grid">
+                        <div class="card-projeto">
+                            <h3>Jogo do Número Secreto</h3>
+                            <p>Um jogo interativo de adivinhação.</p>
+                            <span class="tag">HTML</span> <span class="tag">JS</span> <span class="tag">DOM</span><br>
+                            <a href="#" class="btn-js">Testar Projeto</a>
+                        </div>
+                        <div class="card-projeto">
+                            <h3>Calculadora</h3>
+                            <p>Calculadora simples rodando no navegador.</p>
+                            <span class="tag">CSS</span> <span class="tag">JS</span><br>
+                            <a href="#" class="btn-js">Ver Código</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aba 3: Planejamento Portfólio (ATUALIZADO) -->
+        <section id="portfolio" class="conteudo-aba">
+            <h2>Folha de Planeamento: Seção de Portfólio</h2>
+            <div class="nota-visual">
+                <strong>Ideia de Design & Cores:</strong>
+                Foco no impacto inicial. Todo o conteúdo centralizado com dados da turma.
+            </div>
+            <div class="quadro-planejamento">
+                <h3>O que vou incluir na tela final:</h3>
+                <ul class="lista-tarefas">
+                    <li><input type="checkbox"> Estruturar espaço para foto de perfil redonda (usando <code>border-radius: 50%</code>)</li>
+                    <li><input type="checkbox" checked> Escrever título em grande destaque: "Olá, eu sou o Felipe Tozzini"</li>
+                    <li><input type="checkbox"> Redigir o parágrafo "Desenvolvedor Front-end em formação..."</li>
+                    <li><input type="checkbox"> Colocar links ou ícones para as redes sociais e e-mail</li>
+                </ul>
+            </div>
+
+            <div class="previa-container">
+                <h3>Prévia Visual</h3>
+                <div class="previa-box">
+                    <div class="foto-perfil">[Sua Foto]</div>
+                    <h1 style="margin-bottom: 10px;">Olá, eu sou o Felipe Tozzini!</h1>
+                    
+                    <!-- Adicionado os dados da escola aqui -->
+                    <div class="info-escola">
+                        <strong>Turma:</strong> 3k &nbsp;|&nbsp; <strong>Nº:</strong> 13
+                    </div>
+                    
+                    <p>Sou um desenvolvedor Front-end em formação, apaixonado por tecnologia e criar interfaces incríveis.</p>
+                    <div style="margin-top: 20px;">
+                        <a href="#" class="link-social">LinkedIn</a> | 
+                        <a href="#" class="link-social">GitHub</a> |
+                        <a href="mailto:felipe.tozzini.teixeira@escola.pr.gov.br" class="link-social">E-mail</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aba 4: Planejamento Currículo -->
+        <section id="curriculo" class="conteudo-aba">
+            <h2>Folha de Planejamento: Meu Currículo</h2>
+            <div class="nota-visual">
+                <strong>Ideia de Design & Cores:</strong>
+                Layout focado na leitura imediata para os recrutadores. Fundo branco puro.
+            </div>
+            <div class="quadro-planejamento">
+                <h3>O que vou incluir na tela final:</h3>
+                <ul class="lista-tarefas">
+                    <li><input type="checkbox"> Organizar seção "Educação"</li>
+                    <li><input type="checkbox"> Organizar seção "Habilidades"</li>
+                </ul>
+            </div>
+
+            <div class="previa-container">
+                <h3>Prévia Visual</h3>
+                <div class="previa-box">
+                    <h2 style="margin-top: 0;">Felipe Tozzini</h2>
+                    <p>Turma 3k | Nº 13</p>
+                    
+                    <h4>Educação</h4>
+                    <p><strong>Desenvolvimento Pessoal e Tecnologia</strong> - Alura</p>
+                    
+                    <h4>Habilidades</h4>
+                    <ul>
+                        <li>Planejamento de Carreira e Projeto de Vida</li>
+                        <li>Uso de Inteligência Artificial (AutorIA)</li>
+                        <li>HTML5, CSS3 e JavaScript</li>
+                    </ul>
+
+                    <h4>Contato</h4>
+                    <p>Email: felipe.tozzini.teixeira@escola.pr.gov.br</p>
+
+                    <a href="#" class="btn-download">Baixar Currículo em PDF</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function abrirAba(evento, idDaAba) {
+            let conteudos = document.getElementsByClassName("conteudo-aba");
+            for (let i = 0; i < conteudos.length; i++) {
+                conteudos[i].classList.remove("ativa");
+            }
+            let botoes = document.getElementsByClassName("btn-aba");
+            for (let i = 0; i < botoes.length; i++) {
+                botoes[i].classList.remove("ativo");
+            }
+            document.getElementById(idDaAba).classList.add("ativa");
+            evento.currentTarget.classList.add("ativo");
+        }
+    </script>
+
+</body>
+</html>
