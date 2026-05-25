@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap");
 
 :root {
-  --cor-de-fundo: #16500b;
+  --cor-de-fundo: #49843d;
   --verde: #6FFF57;
   --branco: #FFFFFF;
   --botao-ativo: #082005;
-  --botao-inativo: rgba(58, 55, 94, 0.5);
+  --botao-inativo: rgb(143, 176, 105);
   --texto-fundo: rgba(58, 55, 94, 0.3);
 }
 
@@ -46,7 +46,6 @@ body {
 .botoes {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   width: 100%;
   max-width: 900px;
   margin-top: 24px;
@@ -67,11 +66,11 @@ body {
   border-right: 2px solid var(--botao-ativo);
   border-top: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease-in, transform 0.2s ease;
 }
 
 .botao:hover {
-  transform: translateY(-1px);
+  transform: translateY(-5px);
 }
 
 .botao:first-child {
