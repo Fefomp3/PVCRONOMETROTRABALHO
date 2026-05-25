@@ -10,10 +10,10 @@
 
   const hoje = new Date();
   const prazos = [
-    addDays(hoje, 30),
+    addDays(hoje, 210),
+    addDays(hoje, 210),
     addDays(hoje, 60),
-    addDays(hoje, 90),
-    addDays(hoje, 120)
+    addDays(hoje, 300)
   ];
 
   const contadores = [];
