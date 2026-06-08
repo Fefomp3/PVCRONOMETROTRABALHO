@@ -53,7 +53,9 @@
     }
   }
 
-  // inicia e atualiza a cada segundo
+ function comecaCronometro() {
   atualizaCronometro();
   setInterval(atualizaCronometro, 1000);
-})();
+}
+
+comecaCronometro();})
